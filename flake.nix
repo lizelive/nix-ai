@@ -50,17 +50,22 @@
         app = python.pkgs.buildPythonApplication {
           src = ./.;
         };
-        runtimeInputs = [ python pkgs.clang ];
+        runtimeInputs = [python pkgs.clang];
       in {
-        defaultPackage = pkgs.writeShellApplication {
+        packages.depth2img = pkgs.writeShellApplication {
           name = "depth2img";
           inherit runtimeInputs;
           text = ''
             ${./depth2img.py}
           '';
         };
+        packages.text-to-image = pkgs.writeShellApplication {
+          name = "text-to-image";
+          inherit runtimeInputs;
+          text = "${./text-to-image.py}";
+        };
         devShells.default = pkgs.mkShell {
-          packages = [python pkgs.clang ];
+          packages = [python pkgs.clang];
         };
         formatter = pkgs.alejandra;
       }
