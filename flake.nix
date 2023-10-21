@@ -1,7 +1,7 @@
 {
   description = "nix ml shell";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:lizelive/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -26,13 +26,20 @@
             # pytorch-bin
             transformers
             # diffusers
-            # accelerate
+            accelerate
             # scipy
             optimum
             faiss
             datasets
             scikit-learn
             gradio
+
+            diffusers
+            ipykernel
+            jupyter
+            notebook
+
+            trimesh
             # safetensors
             # onnxconverter-common
 
@@ -43,8 +50,15 @@
         app = python.pkgs.buildPythonApplication {
           src = ./.;
         };
+        runtimeInputs = [ python pkgs.clang ];
       in {
-        defaultPackage = python;
+        defaultPackage = pkgs.writeShellApplication {
+          name = "depth2img";
+          inherit runtimeInputs;
+          text = ''
+            ${./depth2img.py}
+          '';
+        };
         devShells.default = pkgs.mkShell {
           packages = [python pkgs.clang ];
         };

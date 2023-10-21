@@ -1,2 +1,5 @@
 .jupyter
 result
+.direnv
+.ipynb_checkpoints
+*.png
