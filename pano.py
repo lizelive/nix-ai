@@ -7,6 +7,6 @@ pipe = StableDiffusionPanoramaPipeline.from_pretrained(model_ckpt, variant="fp16
 
 pipe = pipe.to("cuda")
 
-prompt = "a photo of the dolomites"
-image = pipe(prompt).images[0]
+prompt = "a photo of the city of dolomites"
+image = pipe(prompt, circular_padding=True).images[0]
 image.save("dolomites.png")
