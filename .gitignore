@@ -3,3 +3,7 @@ result
 .direnv
 .ipynb_checkpoints
 *.png
+*.gif
+*.blend1
+*.blend
+*.jpg

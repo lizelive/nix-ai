@@ -15,7 +15,8 @@ init_image = Image.open("input.png").convert("RGB").resize((512, 512))
 
 prompt = "spaceship"
 n_propmt = "bad, deformed, ugly, bad anotomy"
-image = pipe(prompt=prompt, image=init_image, negative_prompt=n_propmt, strength=0.7).images[0]
+generator = torch.Generator("cuda").manual_seed(0)
+image = pipe(prompt=prompt, generator=generator, image=init_image, negative_prompt=n_propmt, strength=0.7).images[0]
 image.save("out.png")
 
 memory_usage = torch.cuda.memory_stats()["allocated_bytes.all.peak"]
