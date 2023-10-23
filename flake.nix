@@ -44,7 +44,6 @@
             safetensors
             # protobuf cant have both without doing rewrite.
             # onnxconverter-common
-~
             # onnxruntime
             # onnxruntime-tools
           ]);
