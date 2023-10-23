@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import torch
 from diffusers import StableDiffusionPanoramaPipeline, DDIMScheduler
 
@@ -7,6 +8,6 @@ pipe = StableDiffusionPanoramaPipeline.from_pretrained(model_ckpt, variant="fp16
 
 pipe = pipe.to("cuda")
 
-prompt = "a photo of the city of dolomites"
+prompt = "a photo of MKUltra"
 image = pipe(prompt, circular_padding=True).images[0]
 image.save("dolomites.png")

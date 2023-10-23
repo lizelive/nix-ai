@@ -1,10 +1,10 @@
-
+#!/usr/bin/env python3
 from diffusers import StableDiffusionLDM3DPipeline
 
 pipe = StableDiffusionLDM3DPipeline.from_pretrained("Intel/ldm3d-pano")
 pipe.to("cuda")
 
-prompt = "a magic forest"
+prompt = "MKUltra"
 prompt =f"360 view of {prompt}"
 name = "out"
 

@@ -33,14 +33,16 @@
             datasets
             scikit-learn
             gradio
-
+            timm
+            
             diffusers
             ipykernel
             jupyter
             notebook
 
             trimesh
-            # safetensors
+            safetensors
+            # protobuf cant have both without doing rewrite.
             # onnxconverter-common
 
             # onnxruntime
@@ -51,7 +53,20 @@
           src = ./.;
         };
         runtimeInputs = [python pkgs.clang];
+        ide = with pkgs;
+          vscode-with-extensions.override {
+            vscode = vscodium;
+            vscodeExtensions = with vscode-extensions; [
+              jnoortheen.nix-ide
+              mkhl.direnv
+              ms-python.python
+              github.copilot-chat
+              github.copilot
+              vadimcn.vscode-lldb
+            ];
+          };
       in {
+        packages.ide = ide;
         packages.depth2img = pkgs.writeShellApplication {
           name = "depth2img";
           inherit runtimeInputs;
