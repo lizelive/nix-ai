@@ -3,8 +3,9 @@ import torch
 import matplotlib
 import matplotlib.cm
 import numpy as np
+from PIL import Image
 
-torch.hub.help("intel-isl/MiDaS", "DPT_BEiT_L_384")  # Triggers fresh download of MiDaS repo
+torch.hub.help("AyaanShah2204/MiDaS", "DPT_BEiT_L_384")  # Triggers fresh download of MiDaS repo
 model_zoe_n = torch.hub.load("isl-org/ZoeDepth", "ZoeD_NK", pretrained=True).eval()
 model_zoe_n = model_zoe_n.to("cuda")
 
