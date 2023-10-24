@@ -6,8 +6,6 @@ import numpy as np
 from PIL import Image
 
 torch.hub.help("AyaanShah2204/MiDaS", "DPT_BEiT_L_384")  # Triggers fresh download of MiDaS repo
-model_zoe_n = torch.hub.load("isl-org/ZoeDepth", "ZoeD_NK", pretrained=True).eval()
-model_zoe_n = model_zoe_n.to("cuda")
 
 
 def colorize(value, vmin=None, vmax=None, cmap='gray_r', invalid_val=-99, invalid_mask=None, background_color=(128, 128, 128, 255), gamma_corrected=False, value_transform=None):
@@ -52,16 +50,12 @@ def colorize(value, vmin=None, vmax=None, cmap='gray_r', invalid_val=-99, invali
 
 
 def get_zoe_depth_map(image):
+    model_zoe_n = torch.hub.load("isl-org/ZoeDepth", "ZoeD_NK", pretrained=True).eval()
+    model_zoe_n = model_zoe_n.to("cuda")
     with torch.autocast("cuda", enabled=True):
         depth = model_zoe_n.infer_pil(image)
     depth = colorize(depth, cmap="gray_r")
     return depth
-    
-from diffusers.utils import load_image
-image = load_image("https://media.vogue.fr/photos/62bf04b69a57673c725432f3/3:2/w_1793,h_1195,c_limit/rev-1-Barbie-InstaVert_High_Res_JPEG.jpeg")
-depth_image = get_zoe_depth_map(image).resize((1088, 896))
-depth_image.save("out.png")
-
 
 import torch
 import numpy as np

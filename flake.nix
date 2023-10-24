@@ -78,6 +78,11 @@
           inherit runtimeInputs;
           text = "${./text-to-image.py}";
         };
+        packages.image-to-image = pkgs.writeShellApplication {
+          name = "image-to-image";
+          inherit runtimeInputs;
+          text = "${./image-to-image.py}";
+        };
         devShells.default = pkgs.mkShell {
           packages = [python pkgs.clang];
         };
