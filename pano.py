@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import torch
 from diffusers import StableDiffusionPanoramaPipeline, DDIMScheduler
+import gradio as gr
+
 
 model_ckpt = "stabilityai/stable-diffusion-2-base"
 scheduler = DDIMScheduler.from_pretrained(model_ckpt, subfolder="scheduler")

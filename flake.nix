@@ -34,7 +34,7 @@
             scikit-learn
             gradio
             timm
-            
+
             diffusers
             ipykernel
             jupyter
@@ -42,6 +42,10 @@
 
             trimesh
             safetensors
+
+            # open3d # not int nixos
+            pyrender
+
             # protobuf cant have both without doing rewrite.
             # onnxconverter-common
             # onnxruntime
@@ -84,7 +88,7 @@
           text = "${./image-to-image.py}";
         };
         devShells.default = pkgs.mkShell {
-          packages = [python pkgs.clang];
+          packages = [python pkgs.clang pkgs.gtk4 pkgs.egl-wayland];
         };
         formatter = pkgs.alejandra;
       }
