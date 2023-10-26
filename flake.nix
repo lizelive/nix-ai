@@ -5,13 +5,15 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = {
-    self,
-    flake-utils,
-    nixpkgs,
-  }:
+  outputs =
+    { self
+    , flake-utils
+    , nixpkgs
+    ,
+    }:
     flake-utils.lib.eachDefaultSystem (
-      system: let
+      system:
+      let
         pkgs = import nixpkgs {
           inherit system;
           config = {
@@ -45,17 +47,19 @@
 
             # open3d # not int nixos
             pyrender
-
+            # tensorrt
             # protobuf cant have both without doing rewrite.
             # onnxconverter-common
             # onnxruntime
             # onnxruntime-tools
-          ]);
+
+            ray
+          ] ++ p.ray.optional-dependencies.air-deps);
 
         app = python.pkgs.buildPythonApplication {
           src = ./.;
         };
-        runtimeInputs = [python pkgs.clang];
+        runtimeInputs = [ python pkgs.clang ];
         ide = with pkgs;
           vscode-with-extensions.override {
             vscode = vscodium;
@@ -68,29 +72,33 @@
               vadimcn.vscode-lldb
             ];
           };
-      in {
-        packages.ide = ide;
-        packages.depth2img = pkgs.writeShellApplication {
-          name = "depth2img";
-          inherit runtimeInputs;
-          text = ''
-            ${./depth2img.py}
-          '';
-        };
-        packages.text-to-image = pkgs.writeShellApplication {
-          name = "text-to-image";
-          inherit runtimeInputs;
-          text = "${./text-to-image.py}";
-        };
-        packages.image-to-image = pkgs.writeShellApplication {
-          name = "image-to-image";
-          inherit runtimeInputs;
-          text = "${./image-to-image.py}";
-        };
+        weights = (pkgs.callPackage ./weights.nix { });
+      in
+      {
+        # packages.ide = ide;
+        # packages.depth2img = pkgs.writeShellApplication {
+        #   name = "depth2img";
+        #   inherit runtimeInputs;
+        #   text = ''
+        #     ${./depth2img.py}
+        #   '';
+        # };
+        # packages.text-to-image = pkgs.writeShellApplication {
+        #   name = "text-to-image";
+        #   inherit runtimeInputs;
+        #   text = "${./text-to-image.py}";
+        # };
+        # packages.image-to-image = pkgs.writeShellApplication {
+        #   name = "image-to-image";
+        #   inherit runtimeInputs;
+        #   text = "${./image-to-image.py}";
+        # };
+
+        packages.default = weights.combined;
         devShells.default = pkgs.mkShell {
-          packages = [python pkgs.clang pkgs.gtk4 pkgs.egl-wayland];
+          packages = [ python pkgs.clang pkgs.gtk4 pkgs.egl-wayland pkgs.black ];
         };
-        formatter = pkgs.alejandra;
+        formatter = pkgs.nixpkgs-fmt;
       }
     );
 }

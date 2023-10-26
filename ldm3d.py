@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from diffusers import StableDiffusionLDM3DPipeline
 import gradio as gr
-import torch 
+import torch
 from PIL import Image
 import base64
 from io import BytesIO
@@ -13,7 +13,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Device is {device}")
 torch_type = torch.float16 if device == "cuda" else torch.float32
 pipe = StableDiffusionLDM3DPipeline.from_pretrained(
-    "Intel/ldm3d-pano", 
+    "Intel/ldm3d-pano",
     torch_dtype=torch_type
     # , safety_checker=None
 )
@@ -49,7 +49,7 @@ def predict(
 ):
     generator = torch.Generator() if randomize_seed else torch.manual_seed(seed)
     output = pipe(
-         prompt,
+        prompt,
         width=1024,
         height=512,
         negative_prompt=negative_prompt,
@@ -61,7 +61,7 @@ def predict(
     with NamedTemporaryFile(suffix=".png", delete=False, dir="tmp") as rgb_file:
         rgb_image.save(rgb_file.name)
         rgb_image = rgb_file.name
-    with NamedTemporaryFile(suffix=".png",  delete=False,  dir="tmp") as depth_file:
+    with NamedTemporaryFile(suffix=".png", delete=False, dir="tmp") as depth_file:
         depth_image.save(depth_file.name)
         depth_image = depth_file.name
 
@@ -86,29 +86,28 @@ For better results, specify "360 view of" or "panoramic view of" in the prompt
                 label="Guidance Scale", minimum=0, maximum=10, step=0.1, value=5.0
             )
             randomize_seed = gr.Checkbox(label="Randomize Seed", value=True)
-            seed = gr.Slider(label="Seed", minimum=0,
-                             maximum=2**64 - 1, step=1)
+            seed = gr.Slider(label="Seed", minimum=0, maximum=2**64 - 1, step=1)
             generated_seed = gr.Number(label="Generated Seed")
             markdown = gr.Markdown(label="Output Box")
             with gr.Row():
                 new_btn = gr.Button("New Image")
         with gr.Column(scale=2):
-            html = gr.HTML(height='50%')
+            html = gr.HTML(height="50%")
             with gr.Row():
                 rgb = gr.Image(label="RGB Image", type="filepath")
                 depth = gr.Image(label="Depth Image", type="filepath")
     gr.Examples(
-        examples=[
-            ["360 view of a large bedroom", "", 7.0, 42, False]],
+        examples=[["360 view of a large bedroom", "", 7.0, 42, False]],
         inputs=[prompt, negative_prompt, guidance_scale, seed, randomize_seed],
         outputs=[rgb, depth, generated_seed, html],
         fn=predict,
-        cache_examples=True)
+        cache_examples=True,
+    )
 
     new_btn.click(
         fn=predict,
         inputs=[prompt, negative_prompt, guidance_scale, seed, randomize_seed],
         outputs=[rgb, depth, generated_seed, html],
     )
-    
-block.launch() 
+
+block.launch()

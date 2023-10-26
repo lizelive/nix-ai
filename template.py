@@ -13,6 +13,7 @@ def default_chat_template(self):
         "{% endfor %}"
     )
 
+
 def get_template(model):
     tokenizer = AutoTokenizer.from_pretrained(model)
 
@@ -26,16 +27,21 @@ def get_template(model):
     #     "chat_template" : chat_template,
     # }
 
-
     import json
+
     # print(json.dumps(template))
 
-
-    full_chat_template = "\n".join(["{%- set "+k+" = "+json.dumps(v)+" -%}" for k,v in special_tokens_map.items()] + [chat_template])
-        
+    full_chat_template = "\n".join(
+        [
+            "{%- set " + k + " = " + json.dumps(v) + " -%}"
+            for k, v in special_tokens_map.items()
+        ]
+        + [chat_template]
+    )
 
     print(full_chat_template)
     # dict(messages=conversation, **self.special_tokens_map)
+
 
 print(dict(a=1) | dict(a=2))
 

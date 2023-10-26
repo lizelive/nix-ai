@@ -4,9 +4,12 @@ from diffusers import ShapEPipeline
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-pipe = ShapEPipeline.from_pretrained("openai/shap-e", torch_dtype=torch.float16, variant="fp16"
-                                     #, use_safetensors=True
-                                     )
+pipe = ShapEPipeline.from_pretrained(
+    "openai/shap-e",
+    torch_dtype=torch.float16,
+    variant="fp16"
+    # , use_safetensors=True
+)
 pipe = pipe.to(device)
 
 guidance_scale = 15.0

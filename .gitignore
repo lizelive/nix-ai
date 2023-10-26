@@ -9,3 +9,4 @@ result
 *.jpg
 Untitled*
 gradio_cached_examples
+__pycache__
