@@ -10,3 +10,4 @@ result
 Untitled*
 gradio_cached_examples
 __pycache__
+*.webp

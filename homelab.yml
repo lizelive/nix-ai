@@ -17,8 +17,8 @@ docker:
 
 provider:
     type: local
-    head_ip: "192.168.0.10"
-    worker_ips: ["192.168.0.11"]
+    head_ip: "192.168.0.11"
+    worker_ips: ["192.168.0.10"]
 
 # How Ray will authenticate with newly launched nodes.
 auth:
@@ -53,7 +53,7 @@ cluster_synced_files: []
 
 # Whether changes to directories in file_mounts or cluster_synced_files in the head node
 # should sync to the worker node continuously
-file_mounts_sync_continuously: False
+file_mounts_sync_continuously: true
 
 # Patterns for files to exclude when running rsync up or rsync down
 rsync_exclude:
@@ -94,20 +94,20 @@ head_setup_commands: []
 # Custom commands that will be run on worker nodes after common setup.
 worker_setup_commands: []
 
-# Command to start ray on the head node. You don't need to change this.
-head_start_ray_commands:
-  # If we have e.g. conda dependencies, we could create on each node a conda environment (see `setup_commands` section).
-  # In that case we'd have to activate that env on each node before running `ray`:
-  # - conda activate my_venv && ray stop
-  # - conda activate my_venv && ulimit -c unlimited && ray start --head --port=6379 --autoscaling-config=~/ray_bootstrap_config.yaml
-    - ray stop
-    - ulimit -c unlimited && ray start --head --port=6379 --autoscaling-config=~/ray_bootstrap_config.yaml --dashboard-host=0.0.0.0
+# # Command to start ray on the head node. You don't need to change this.
+# head_start_ray_commands:
+#   # If we have e.g. conda dependencies, we could create on each node a conda environment (see `setup_commands` section).
+#   # In that case we'd have to activate that env on each node before running `ray`:
+#   # - conda activate my_venv && ray stop
+#   # - conda activate my_venv && ulimit -c unlimited && ray start --head --port=6379 --autoscaling-config=~/ray_bootstrap_config.yaml
+#     - ray stop
+#     - ulimit -c unlimited && ray start --head --port=6379 --autoscaling-config=~/ray_bootstrap_config.yaml --dashboard-host=0.0.0.0
 
-# Command to start ray on worker nodes. You don't need to change this.
-worker_start_ray_commands:
-  # If we have e.g. conda dependencies, we could create on each node a conda environment (see `setup_commands` section).
-  # In that case we'd have to activate that env on each node before running `ray`:
-  # - conda activate my_venv && ray stop
-  # - ray start --address=$RAY_HEAD_IP:6379
-    - ray stop
-    - ray start --address=$RAY_HEAD_IP:6379
+# # Command to start ray on worker nodes. You don't need to change this.
+# worker_start_ray_commands:
+#   # If we have e.g. conda dependencies, we could create on each node a conda environment (see `setup_commands` section).
+#   # In that case we'd have to activate that env on each node before running `ray`:
+#   # - conda activate my_venv && ray stop
+#   # - ray start --address=$RAY_HEAD_IP:6379
+#     - ray stop
+#     - ray start --address=$RAY_HEAD_IP:6379

@@ -1,15 +1,22 @@
+#!/usr/bin/env python3
+
 import os
 os.environ['PYOPENGL_PLATFORM'] = 'egl'
 import numpy as np
 import trimesh
 import pyrender
 import matplotlib.pyplot as plt
-r = pyrender.OffscreenRenderer(400, 400)
+
+
+SIZE = 512
+r = pyrender.OffscreenRenderer(SIZE, SIZE)
 
 import numpy as np
 import trimesh
 import pyrender
 import matplotlib.pyplot as plt
+
+from PIL import Image
 
 fuze_trimesh = trimesh.load(
     "/home/lizelive/Documents/cthulhu-space-program/assets/models/doc.glb"
@@ -34,11 +41,18 @@ light = pyrender.SpotLight(
 )
 scene.add(light, pose=camera_pose)
 color, depth = r.render(scene)
-plt.figure()
-plt.subplot(1, 2, 1)
-plt.axis("off")
-plt.imshow(color)
-plt.subplot(1, 2, 2)
-plt.axis("off")
-plt.imshow(depth, cmap=plt.cm.gray_r)
-plt.show()
+
+
+print(color.shape, color.dtype)
+print(color.min(), color.max())
+
+print(depth.shape, depth.dtype)
+print(depth.min(), depth.max())
+
+color = Image.fromarray(color.astype('uint8'), 'RGB')
+color.save('color.png')
+
+
+depth = Image.fromarray((depth * 2**7).astype('uint8'), 'L')
+depth.save('depth.webp')
+
