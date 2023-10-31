@@ -17,9 +17,7 @@ def load_model():
     ).to("cuda")
     # pipeline.enable_freeu(b1=1.4, b2=1.6, s1=0.9, s2=0.2)
 
-    pipeline.unet = torch.compile(
-        pipeline.unet
-    , mode="reduce-overhead", fullgraph=True)
+    pipeline.unet = torch.compile(pipeline.unet, mode="reduce-overhead", fullgraph=True)
     # pipeline.enable_model_cpu_offload()
     return pipeline
 

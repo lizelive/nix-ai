@@ -66,7 +66,7 @@ def handle(model_index):
         meta = dict(url=mesh_url, volume=mesh.volume)
         json.dump(meta, f)
 
-    voxelized = mesh.voxelized(1/256)
+    voxelized = mesh.voxelized(1 / 256)
     # voxelized_filled = voxelized.fill()
 
     with open(f"out/{model_index}.vox.npz", "wb") as f:
