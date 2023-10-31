@@ -54,7 +54,7 @@ def echo(message, history, system_prompt, max_new_tokens):
     # trim off prompt
     generated_text = generated_text[len(prompt) :]
 
-    generated_text = generated_text.removeprefix(prefix="<|assistant|>")
+    generated_text = generated_text.removeprefix("<|assistant|>")
     generated_text = generated_text.strip()
     return generated_text
 
