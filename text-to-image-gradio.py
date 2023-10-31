@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env gradio
 
 
 import gradio as gr
@@ -19,7 +19,7 @@ def load_model():
 
     pipeline.unet = torch.compile(
         pipeline.unet
-    )  # , mode="reduce-overhead", fullgraph=True)
+    , mode="reduce-overhead", fullgraph=True)
     # pipeline.enable_model_cpu_offload()
     return pipeline
 
@@ -28,7 +28,7 @@ pipeline = load_model()
 
 
 def text_to_image(prompt):
-    return pipeline(prompt=prompt).images[0]
+    return pipeline(prompt=prompt).images
 
 
 with gr.Blocks() as demo:

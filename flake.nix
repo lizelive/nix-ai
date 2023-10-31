@@ -19,6 +19,7 @@
           config = {
             allowUnfree = true;
             cudaSupport = true;
+            enableOptimizations = true;
           };
         };
         python = pkgs.python310.withPackages (p:
@@ -52,26 +53,9 @@
             # onnxconverter-common
             # onnxruntime
             # onnxruntime-tools
+          ]);
 
-            ray
-          ] ++ p.ray.optional-dependencies.air-deps);
-
-        app = python.pkgs.buildPythonApplication {
-          src = ./.;
-        };
-        runtimeInputs = [ python pkgs.clang ];
-        ide = with pkgs;
-          vscode-with-extensions.override {
-            vscode = vscodium;
-            vscodeExtensions = with vscode-extensions; [
-              jnoortheen.nix-ide
-              mkhl.direnv
-              ms-python.python
-              github.copilot-chat
-              github.copilot
-              vadimcn.vscode-lldb
-            ];
-          };
+        runtimeInputs = [python];
         weights = (pkgs.callPackage ./weights.nix { });
       in
       {
@@ -93,7 +77,13 @@
         #   inherit runtimeInputs;
         #   text = "${./image-to-image.py}";
         # };
-
+        packages.depth2img = pkgs.writeShellApplication {
+          name = "chat";
+          inherit runtimeInputs;
+          text = ''
+            ${./chat-gradio.py}
+          '';
+        };
         packages.default = weights.combined;
         devShells.default = pkgs.mkShell {
           packages = [ python pkgs.clang pkgs.gtk4 pkgs.egl-wayland pkgs.black ];
