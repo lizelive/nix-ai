@@ -38,6 +38,7 @@ def gradio_summarizer_builder():
         outputs=[gr.Textbox(label="Model output")],
     )
 
+
 app = GradioServer.options(ray_actor_options={"num_cpus": 4}).bind(
     gradio_summarizer_builder
 )
