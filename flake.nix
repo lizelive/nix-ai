@@ -77,14 +77,14 @@
         #   inherit runtimeInputs;
         #   text = "${./image-to-image.py}";
         # };
-        packages.depth2img = pkgs.writeShellApplication {
+        packages.chat = pkgs.writeShellApplication {
           name = "chat";
           inherit runtimeInputs;
           text = ''
             ${./chat-gradio.py}
           '';
         };
-        packages.default = weights.combined;
+        # packages.default = weights.combined;
         devShells.default = pkgs.mkShell {
           packages = [ python pkgs.clang pkgs.gtk4 pkgs.egl-wayland pkgs.black ];
         };
