@@ -41,7 +41,7 @@ def echo(message, history, system_prompt, max_new_tokens):
     ]
     prompt = pipe.tokenizer.apply_chat_template(
         messages, tokenize=False, add_generation_prompt=True
-    )
+    ) + "<|assistant|>"
     outputs = pipe(
         prompt,
         max_new_tokens=max_new_tokens,
@@ -50,10 +50,12 @@ def echo(message, history, system_prompt, max_new_tokens):
         top_k=50,
         top_p=0.95,
     )
-    generated_text = outputs[0]["generated_text"]
+    generated_text:str = outputs[0]["generated_text"]
     # trim off prompt
     generated_text = generated_text[len(prompt) :]
 
+    generated_text = generated_text.removeprefix(prefix="<|assistant|>")
+    generated_text = generated_text.strip()
     return generated_text
 
 
