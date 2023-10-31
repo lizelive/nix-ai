@@ -1,4 +1,4 @@
-#!/usr/bin/env gradio
+#!/usr/bin/env python3
 
 import gradio as gr
 import time
