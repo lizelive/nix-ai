@@ -69,4 +69,4 @@ system_prompt = gr.Textbox(
 demo = gr.ChatInterface(echo, additional_inputs=[system_prompt, max_new_tokens])
 
 if __name__ == "__main__":
-    demo.queue().launch(server_name="0.0.0.0")
+    demo.queue().launch(server_name="[::]")
