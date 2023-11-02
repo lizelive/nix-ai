@@ -9,7 +9,7 @@ import pyrender
 import matplotlib.pyplot as plt
 
 
-SIZE = 512
+SIZE = 2048
 r = pyrender.OffscreenRenderer(SIZE, SIZE)
 
 import numpy as np
@@ -46,7 +46,8 @@ import random
 import json
 
 # model_index = random.randint(0, len(paths) - 1)
-
+DEPTH_LOG = False
+DEPTH_INVERT = False
 
 def handle(model_index):
     # random_index = 1
@@ -54,12 +55,14 @@ def handle(model_index):
     mesh_url = f"{root_url}/{paths[model_index]}"
     mesh: trimesh.Trimesh = trimesh.load_remote(mesh_url, force="mesh")
     # assert clean_mesh.fill_holes(), "failed to fill holes"
-    bounds: trimesh.primitives.Sphere = mesh.bounding_sphere
+    # bounds: trimesh.primitives.Sphere = mesh.bounding_sphere
+    bounds: trimesh.primitives.Box = mesh.bounding_box
     # bounding_sphere.apply_translation(-bounding_sphere.t)
-    transform = np.linalg.inv(bounds.primitive.transform)
-    print(bounds.center)
-    mesh.apply_translation(-bounds.center)
-    mesh.apply_scale(1 / bounds.primitive.radius)
+    # transform = np.linalg.inv(bounds.primitive.transform)
+    # print(bounds.transform)
+    mesh.apply_translation(-mesh.bounds.mean(axis=0))
+    mesh.apply_scale(1 / mesh.extents.max())
+    # mesh.apply_scale(1 / bounds.primitive.radius)
 
     print(mesh_url, mesh.volume)
 
@@ -76,10 +79,11 @@ def handle(model_index):
     for angle in range(0, 360, 90):
         scene = pyrender.Scene(ambient_light=np.ones(3))
         scene.add(pyrender.Mesh.from_trimesh(mesh))
-        camera = pyrender.PerspectiveCamera(yfov=np.pi / 2.0, aspectRatio=1.0)
-        camera = pyrender.OrthographicCamera(xmag=1.0, ymag=1.0)
+        # camera = pyrender.PerspectiveCamera(yfov=np.pi / 2.0, aspectRatio=1.0)
+        mag = 1 / 2
+        camera = pyrender.OrthographicCamera(xmag=mag, ymag=mag, zfar=2)
         camera_pose = np.eye(4)
-        camera_pose[2, 3] = 2
+        camera_pose[:3, 3] = [0, 0, 1]
         camera_pose = (
             trimesh.transformations.rotation_matrix(
                 angle=np.deg2rad(angle), direction=[0, 1, 0]
@@ -95,8 +99,12 @@ def handle(model_index):
         #     outerConeAngle=np.pi / 6.0,
         # )
         # scene.add(light, pose=camera_pose)
-        color, depth = r.render(scene)
+        color, depth = r.render(scene, flags=pyrender.RenderFlags.FACE_NORMALS | pyrender.RenderFlags.OFFSCREEN) 
+        color = color.copy()
+        # color[:, :, 3] = 255 - color[:, :, 3]
+        # color = color.astype(np.float32) / 255
 
+        # out = np.dstack((, depth))
         # print(color.shape, color.dtype)
         # print(color.min(), color.max())
 
@@ -107,12 +115,33 @@ def handle(model_index):
             np.savez_compressed(f, color=color, depth=depth, camera_pose=camera_pose)
 
         color = Image.fromarray(color, "RGB")
-        color.save(f"out/{model_index}.{angle}.color.png")
+        # color.save(f"out/{model_index}.{angle}.color.spi", format='SPIDER')
+        # color.save(f"out/{model_index}.{angle}.color.jpg")
+        # color.save(f"out/{model_index}.{angle}.color.png")
+        # color.save(f"out/{model_index}.{angle}.color.j2k")
+        color.save(f"out/{model_index}.{angle}.rgb.webp", lossless=True)
 
-        # # depth = (depth * (2**8 - 1)).astype("uint8")
-        # depth = Image.fromarray(depth, "L")
+        depth -= depth.min()
+        depth /= depth.max()
+        
+        # depth = 1 / ( 1- depth)
+        # depth -= depth.min()
+        # depth /= depth.max()
 
-        # depth.save(f"out/{model_index}.{angle}.depth.png")
+        if DEPTH_LOG:
+            depth = np.log1p(depth)
+            depth -= depth.min()
+            depth /= depth.max()
+        if DEPTH_INVERT:
+            depth = 1 - depth
+
+        depth = (depth * (2**8 - 1)).astype(np.uint8)
+        # depth = (depth * (2**16 - 1)).astype(np.uint16)
+
+        print(depth.min(), depth.max(), depth.dtype, depth.shape)
+        depth = Image.fromarray(depth, "L")
+
+        depth.save(f"out/{model_index}.{angle}.d.png" )
 
 
 for model_index in range(5 + 0 * len(paths)):
