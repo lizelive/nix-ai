@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 
 
-root_url = "http://nook.lize.live/datasets/allenai/objaverse"
+root_url = "http://nook.local/datasets/allenai/objaverse"
 
 object_path_url = f"{root_url}/object-paths.json.gz"
 
@@ -57,6 +57,7 @@ def handle(model_index):
     bounds: trimesh.primitives.Sphere = mesh.bounding_sphere
     # bounding_sphere.apply_translation(-bounding_sphere.t)
     transform = np.linalg.inv(bounds.primitive.transform)
+    print(bounds.center)
     mesh.apply_translation(-bounds.center)
     mesh.apply_scale(1 / bounds.primitive.radius)
 
@@ -66,16 +67,17 @@ def handle(model_index):
         meta = dict(url=mesh_url, volume=mesh.volume)
         json.dump(meta, f)
 
-    voxelized = mesh.voxelized(1 / 256)
-    # voxelized_filled = voxelized.fill()
+    # voxelized = mesh.voxelized(1 / 256)
+    # # voxelized_filled = voxelized.fill()
 
-    with open(f"out/{model_index}.vox.npz", "wb") as f:
-        np.savez_compressed(f, voxelized=voxelized.matrix)
+    # with open(f"out/{model_index}.vox.npz", "wb") as f:
+    #     np.savez_compressed(f, voxelized=voxelized.matrix)
 
     for angle in range(0, 360, 90):
         scene = pyrender.Scene(ambient_light=np.ones(3))
         scene.add(pyrender.Mesh.from_trimesh(mesh))
         camera = pyrender.PerspectiveCamera(yfov=np.pi / 2.0, aspectRatio=1.0)
+        camera = pyrender.OrthographicCamera(xmag=1.0, ymag=1.0)
         camera_pose = np.eye(4)
         camera_pose[2, 3] = 2
         camera_pose = (
@@ -104,8 +106,8 @@ def handle(model_index):
         with open(f"out/{model_index}.{angle}.npz", "wb") as f:
             np.savez_compressed(f, color=color, depth=depth, camera_pose=camera_pose)
 
-        # color = Image.fromarray(color, "RGB")
-        # color.save(f"out/{model_index}.{angle}.color.png")
+        color = Image.fromarray(color, "RGB")
+        color.save(f"out/{model_index}.{angle}.color.png")
 
         # # depth = (depth * (2**8 - 1)).astype("uint8")
         # depth = Image.fromarray(depth, "L")
@@ -113,8 +115,8 @@ def handle(model_index):
         # depth.save(f"out/{model_index}.{angle}.depth.png")
 
 
-for model_index in range(len(paths)):
+for model_index in range(5 + 0 * len(paths)):
     try:
         handle(model_index)
     except Exception as e:
-        print(e)
+        print(model_index, e)

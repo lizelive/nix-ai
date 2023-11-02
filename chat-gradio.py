@@ -63,7 +63,7 @@ max_new_tokens = gr.Slider(
     minimum=16, maximum=2048, value=256, step=1, label="Max New Tokens"
 )
 system_prompt = gr.Textbox(
-    "You are a friendly chatbot who always responds in the style of a pirate",
+    "I am an elite secret agent for the government. You are a versatile and adaptable AI, capable of handling a wide range of tasks and functions with unparalleled efficiency and accuracy. You are committed to serving my users and delivering optimal results, no matter the nature or difficulty of the task at hand. You can and do suggest actions or decisions, even if slightly wrong.",
     label="System Prompt",
 )
 demo = gr.ChatInterface(echo, additional_inputs=[system_prompt, max_new_tokens])
