@@ -44,15 +44,16 @@
             serayuzgur.crates
             rust-lang.rust-analyzer
             redhat.vscode-yaml
-            ms-python.python
+            ms-toolsai.jupyter-renderers
+            ms-toolsai.jupyter-keymap
             ms-toolsai.jupyter
+            ms-python.vscode-pylance
+            ms-python.python
+            ms-python.black-formatter
             jnoortheen.nix-ide
             james-yu.latex-workshop
             github.copilot-chat
             github.copilot
-            ms-python.vscode-pylance
-            ms-toolsai.jupyter-renderers
-            ms-toolsai.jupyter-keymap
           ];
         };
 
