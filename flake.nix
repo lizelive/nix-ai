@@ -14,13 +14,12 @@
           inherit system;
           config = {
             allowUnfree = true;
-            cudaSupport = true;
-            enableOptimizations = true;
+            # cudaSupport = true;
+            # enableOptimizations = true;
           };
           overlays = import ./overlays;
         };
         vscode = pkgs.vscode-with-extensions.override {
-          # vscode = pkgs.vscode.fhsWithPackages (_: [ python ] ++ bevyDeps.nativeBuildInputs ++ bevyDeps.buildInputs);
           vscodeExtensions = with pkgs.vscode-extensions; [
             vadimcn.vscode-lldb
             timonwong.shellcheck
@@ -44,8 +43,10 @@
         legacyPackages = pkgs;
         packages.vscode = vscode;
         formatter = pkgs.nixpkgs-fmt;
+        overlay.default = import ./overlays;
       }
     );
+
 }
 # python -c 'import torch; assert torch.cuda.is_available(), "cuda not available"'
 
