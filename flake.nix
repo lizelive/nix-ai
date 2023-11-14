@@ -1,9 +1,5 @@
 {
   description = "nix ml shell";
-  inputs = {
-    nixpkgs.url = "github:lizelive/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
-  };
 
   outputs =
     { self
@@ -21,73 +17,32 @@
             cudaSupport = true;
             enableOptimizations = true;
           };
+          overlays = import ./overlays;
         };
-        python = pkgs.python310.withPackages (p:
-          with p; [
-            # diffusers
-            torch
-            # pytorch-bin
-            transformers
-            # diffusers
-            accelerate
-            # scipy
-            optimum
-            faiss
-            datasets
-            scikit-learn
-            gradio
-            timm
-
-            diffusers
-            ipykernel
-            jupyter
-            notebook
-
-            trimesh
-            safetensors
-
-            # open3d # not int nixos
-            pyrender
-            # tensorrt
-            # protobuf cant have both without doing rewrite.
-            # onnxconverter-common
-            # onnxruntime
-            # onnxruntime-tools
-          ]);
-
-        runtimeInputs = [python];
-        weights = (pkgs.callPackage ./weights.nix { });
+        vscode = pkgs.vscode-with-extensions.override {
+          # vscode = pkgs.vscode.fhsWithPackages (_: [ python ] ++ bevyDeps.nativeBuildInputs ++ bevyDeps.buildInputs);
+          vscodeExtensions = with pkgs.vscode-extensions; [
+            vadimcn.vscode-lldb
+            timonwong.shellcheck
+            tamasfe.even-better-toml
+            serayuzgur.crates
+            rust-lang.rust-analyzer
+            redhat.vscode-yaml
+            ms-python.python
+            ms-toolsai.jupyter
+            jnoortheen.nix-ide
+            james-yu.latex-workshop
+            github.copilot-chat
+            github.copilot
+            ms-python.vscode-pylance
+            ms-toolsai.jupyter-renderers
+            ms-toolsai.jupyter-keymap
+          ];
+        };
       in
       {
-        # packages.ide = ide;
-        # packages.depth2img = pkgs.writeShellApplication {
-        #   name = "depth2img";
-        #   inherit runtimeInputs;
-        #   text = ''
-        #     ${./depth2img.py}
-        #   '';
-        # };
-        # packages.text-to-image = pkgs.writeShellApplication {
-        #   name = "text-to-image";
-        #   inherit runtimeInputs;
-        #   text = "${./text-to-image.py}";
-        # };
-        # packages.image-to-image = pkgs.writeShellApplication {
-        #   name = "image-to-image";
-        #   inherit runtimeInputs;
-        #   text = "${./image-to-image.py}";
-        # };
-        packages.chat = pkgs.writeShellApplication {
-          name = "chat";
-          inherit runtimeInputs;
-          text = ''
-            ${./chat-gradio.py}
-          '';
-        };
-        # packages.default = weights.combined;
-        devShells.default = pkgs.mkShell {
-          packages = [ python pkgs.clang pkgs.gtk4 pkgs.egl-wayland pkgs.black ];
-        };
+        legacyPackages = pkgs;
+        packages.vscode = vscode;
         formatter = pkgs.nixpkgs-fmt;
       }
     );

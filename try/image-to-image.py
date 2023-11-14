@@ -6,9 +6,10 @@ import numpy as np
 from PIL import Image
 
 torch.hub.help(
-    "AyaanShah2204/MiDaS", "DPT_BEiT_L_384"
+    "isl-org/MiDaS:pull/240/merge", "DPT_BEiT_L_384"
 )  # Triggers fresh download of MiDaS repo
-
+# refs/pull/240/head
+# 6a138812e9926f8b3a66eb63d43f3b60e1eb2020
 
 def colorize(
     value,
