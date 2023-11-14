@@ -68,6 +68,8 @@
             safetensors
             pydantic
             gradio
+            datasets
+            fsspec
           ]);
 
         pythonShell = pkgs.mkShell {
