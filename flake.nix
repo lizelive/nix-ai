@@ -103,10 +103,14 @@
             propagatedBuildInputs = [ vulkan-loader ];
             inherit LD_LIBRARY_PATH;
           };
+
+        WEIGHTS = import ./weights pkgs;
       in
       {
         legacyPackages = pkgs;
-        packages.vscode = vscode;
+        packages.ide = vscode;
+        packages.weights = WEIGHTS;
+
         formatter = pkgs.nixpkgs-fmt;
 
         devShells.python = pythonShell;
@@ -114,14 +118,14 @@
         devShells.bevy = bevyShell;
 
         devShells.aio = pkgs.mkShell {
-          packages = [ pkgs.bashInteractive ];
+          packages = [ pkgs.bashInteractive pkgs.cuda-voxelizer ];
           inputsFrom = [
             pythonShell
             bevyShell
             vscode
           ];
 
-          inherit LD_LIBRARY_PATH;
+          inherit LD_LIBRARY_PATH WEIGHTS;
         };
       }
     );
