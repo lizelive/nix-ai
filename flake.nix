@@ -110,6 +110,7 @@
         devShells.bevy = bevyShell;
 
         devShells.aio = pkgs.mkShell {
+          packages = [ pkgs.bashInteractive ];
           inputsFrom = [
             pythonShell
             bevyShell
