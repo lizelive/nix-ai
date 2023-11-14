@@ -72,12 +72,8 @@
             datasets
             fsspec
 
-            skorch
-            scikit-optimize
-            scikit-learn-extra
             scikit-learn
             scikit-image
-            scikit-fmm
           ]);
 
         pythonShell = pkgs.mkShell {
