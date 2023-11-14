@@ -76,6 +76,10 @@
             pkgs.black
           ];
         };
+        LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [
+          addOpenGLRunpath.driverLink
+          vulkan-loader
+        ];
         bevyShell = with pkgs; mkShell
           {
             nativeBuildInputs = [
@@ -97,7 +101,7 @@
               wayland # To use the wayland feature
             ];
             propagatedBuildInputs = [ vulkan-loader ];
-            LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [ vulkan-loader ];
+            inherit LD_LIBRARY_PATH;
           };
       in
       {
@@ -116,7 +120,8 @@
             bevyShell
             vscode
           ];
-          # inherit (bevyShell) LD_LIBRARY_PATH;
+
+          inherit LD_LIBRARY_PATH;
         };
       }
     );
