@@ -31,8 +31,8 @@
           inherit system overlays;
           config = {
             allowUnfree = true;
-            # cudaSupport = true;
-            # enableOptimizations = true;
+            cudaSupport = true;
+            enableOptimizations = true;
           };
         };
 
