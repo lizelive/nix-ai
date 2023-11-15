@@ -74,7 +74,9 @@
 
             scikit-learn
             scikit-image
-          ]);
+
+          ] ++ (with trimesh.optional-dependencies;  easy ++ recommend)
+          );
 
         pythonShell = pkgs.mkShell {
           nativeBuildInputs = [
@@ -99,9 +101,9 @@
             buildInputs = [
               openssl
               openssl.dev
-              
+
               zlib
-              
+
               udev
               alsa-lib
               vulkan-loader
