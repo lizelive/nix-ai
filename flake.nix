@@ -96,6 +96,9 @@
               rustc
             ];
             buildInputs = [
+              # openssl
+              openssl.dev
+              # zlib
               udev
               alsa-lib
               vulkan-loader
