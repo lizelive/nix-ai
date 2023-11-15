@@ -79,6 +79,9 @@
             pip
             notebook
             ipykernel
+
+            # convex hull
+            vhacdx
           ]
           #  ++ (with trimesh.optional-dependencies;  easy ++ recommend)
           );

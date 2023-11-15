@@ -9,6 +9,7 @@ let
     trimesh = callPackage ./trimesh.nix { };
     python-fcl = callPackage ./python-fcl.nix { };
     vhacdx = callPackage ./vhacdx.nix { };
+    embreex = callPackage ./embreex.nix { };
   };
 
   pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [ packageOverrides ];

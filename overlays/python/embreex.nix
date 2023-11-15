@@ -11,15 +11,15 @@
 }:
 
 buildPythonPackage rec {
-  pname = "pyembree";
-  version = "0.2.11";
+  pname = "embreex";
+  version = "2.17.7";
   pyproject = true;
 
   src = fetchFromGitHub {
-    owner = "adam-grant-hendry";
-    repo = "pyembree";
+    owner = "trimesh";
+    repo = "embreex";
     rev = version;
-    hash = "sha256-i+biTvLV+D5XG7Y7sflwAjaxNw4lCdJfOk19YeoYR1o=";
+    hash = "sha256-MiDagE94qSdTA+zZCKkCSEpvr3J1F+K0TECe8At83y4=";
   };
 
   nativeBuildInputs = [
@@ -39,7 +39,7 @@ buildPythonPackage rec {
     wheel
   ];
 
-  pythonImportsCheck = [ "pyembree" ];
+  pythonImportsCheck = [ "embreex" ];
 
   meta = with lib; {
     description = "Python Wrapper for Embree";
@@ -47,6 +47,6 @@ buildPythonPackage rec {
     changelog = "https://github.com/adam-grant-hendry/pyembree/blob/${src.rev}/CHANGELOG.rst";
     license = licenses.bsd2;
     maintainers = with maintainers; [ ];
-    mainProgram = "pyembree";
+    mainProgram = "embreex";
   };
 }
