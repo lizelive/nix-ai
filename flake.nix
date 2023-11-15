@@ -86,6 +86,7 @@
           addOpenGLRunpath.driverLink
           vulkan-loader
         ];
+        RUST_SRC_PATH = "${pkgs.rustPlatform.rustLibSrc}";
         bevyShell = with pkgs; mkShell
           {
             nativeBuildInputs = [
@@ -112,7 +113,7 @@
               wayland # To use the wayland feature
             ];
             propagatedBuildInputs = [ vulkan-loader ];
-            inherit LD_LIBRARY_PATH;
+            inherit LD_LIBRARY_PATH RUST_SRC_PATH;
           };
 
         WEIGHTS = import ./weights pkgs;
@@ -136,7 +137,7 @@
             vscode
           ];
 
-          inherit LD_LIBRARY_PATH WEIGHTS;
+          inherit LD_LIBRARY_PATH WEIGHTS RUST_SRC_PATH;
         };
       }
     );
