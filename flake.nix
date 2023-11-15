@@ -170,6 +170,8 @@
         packages.weights = WEIGHTS;
         packages.aiPython = aiPython;
 
+        packages.pyembree = pkgs.python310Packages.pyembree;
+
         formatter = pkgs.nixpkgs-fmt;
 
         devShells.python = pythonShell;

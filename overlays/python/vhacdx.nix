@@ -1,9 +1,10 @@
 { lib
 , python3
 , fetchFromGitHub
+, buildPythonPackage
 }:
 
-python3.pkgs.buildPythonApplication rec {
+buildPythonPackage rec {
   pname = "vhacdx";
   version = "0.0.4";
   pyproject = true;

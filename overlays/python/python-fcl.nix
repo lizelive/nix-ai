@@ -1,9 +1,14 @@
 { lib
-, python3
 , fetchFromGitHub
+, buildPythonPackage
+, cython
+, numpy
+, oldest-supported-numpy
+, setuptools
+, wheel
 }:
 
-python3.pkgs.buildPythonApplication rec {
+buildPythonPackage rec {
   pname = "python-fcl";
   version = "0.7.0.5";
   pyproject = true;
@@ -16,11 +21,11 @@ python3.pkgs.buildPythonApplication rec {
   };
 
   nativeBuildInputs = [
-    python3.pkgs.cython
-    python3.pkgs.numpy
-    python3.pkgs.oldest-supported-numpy
-    python3.pkgs.setuptools
-    python3.pkgs.wheel
+    cython
+    numpy
+    oldest-supported-numpy
+    setuptools
+    wheel
   ];
 
   pythonImportsCheck = [ "python_fcl" ];

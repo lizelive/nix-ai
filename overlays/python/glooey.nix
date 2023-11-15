@@ -1,9 +1,10 @@
 { lib
-, python3
 , fetchFromGitHub
+, buildPythonPackage
+, flit
 }:
 
-python3.pkgs.buildPythonApplication rec {
+buildPythonPackage rec {
   pname = "glooey";
   version = "0.3.6";
   pyproject = true;
@@ -16,7 +17,7 @@ python3.pkgs.buildPythonApplication rec {
   };
 
   nativeBuildInputs = [
-    python3.pkgs.flit
+    flit
   ];
 
   pythonImportsCheck = [ "glooey" ];

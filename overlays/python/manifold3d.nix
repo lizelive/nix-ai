@@ -1,9 +1,11 @@
 { lib
-, python3
 , fetchFromGitHub
+, buildPythonPackage
+, scikit-build-core
+, numpy
 }:
 
-python3.pkgs.buildPythonApplication rec {
+buildPythonPackage rec {
   pname = "manifold";
   version = "2.2.1";
   pyproject = true;
@@ -17,10 +19,10 @@ python3.pkgs.buildPythonApplication rec {
   };
 
   nativeBuildInputs = [
-    python3.pkgs.scikit-build-core
+    scikit-build-core
   ];
 
-  propagatedBuildInputs = with python3.pkgs; [
+  propagatedBuildInputs = [
     numpy
   ];
 

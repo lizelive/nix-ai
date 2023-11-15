@@ -1,9 +1,16 @@
 { lib
-, python3
 , fetchFromGitHub
+, buildPythonPackage
+, cython
+, numpy
+, poetry-core
+, setuptools
+, wheel
+, rtree
+, trimesh
 }:
 
-python3.pkgs.buildPythonApplication rec {
+buildPythonPackage rec {
   pname = "pyembree";
   version = "0.2.11";
   pyproject = true;
@@ -16,14 +23,14 @@ python3.pkgs.buildPythonApplication rec {
   };
 
   nativeBuildInputs = [
-    python3.pkgs.cython
-    python3.pkgs.numpy
-    python3.pkgs.poetry-core
-    python3.pkgs.setuptools
-    python3.pkgs.wheel
+    cython
+    numpy
+    poetry-core
+    setuptools
+    wheel
   ];
 
-  propagatedBuildInputs = with python3.pkgs; [
+  propagatedBuildInputs = [
     cython
     numpy
     rtree

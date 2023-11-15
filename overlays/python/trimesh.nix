@@ -1,9 +1,44 @@
 { lib
-, python3
 , fetchFromGitHub
+, buildPythonPackage
+, setuptools
+, wheel
+, numpy
+, chardet
+, colorlog
+, pyembree
+, jsonschema
+, lxml
+, mapbox-earcut
+, networkx
+, pillow
+, pycollada
+, requests
+, rtree
+, scipy
+, shapely
+, svg-path
+, xxhash
+, glooey
+, manifold3d
+, meshio
+, psutil
+, pyglet
+, python-fcl
+, scikit-image
+, sympy
+, vhacdx
+, black
+, coveralls
+, ezdxf
+, matplotlib
+, mypy
+, pyinstrument
+, pytest
+, pytest-cov
 }:
 
-python3.pkgs.buildPythonApplication rec {
+buildPythonPackage rec {
   pname = "trimesh";
   version = "4.0.4";
   pyproject = true;
@@ -16,20 +51,20 @@ python3.pkgs.buildPythonApplication rec {
   };
 
   nativeBuildInputs = [
-    python3.pkgs.setuptools
-    python3.pkgs.wheel
+    setuptools
+    wheel
   ];
 
-  propagatedBuildInputs = with python3.pkgs; [
+  propagatedBuildInputs = [
     numpy
   ];
 
-  passthru.optional-dependencies = with python3.pkgs; {
+  passthru.optional-dependencies =  {
 
     easy = [
       chardet
       colorlog
-      pyembree # i don't think this is open source
+      pyembree
       jsonschema
       lxml
       mapbox-earcut
@@ -63,10 +98,8 @@ python3.pkgs.buildPythonApplication rec {
       matplotlib
       mypy
       pyinstrument
-      pymeshlab
       pytest
       pytest-cov
-      ruff
     ];
   };
 
