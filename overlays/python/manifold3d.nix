@@ -3,6 +3,8 @@
 , buildPythonPackage
 , scikit-build-core
 , numpy
+, cmake
+, ninja
 }:
 
 buildPythonPackage rec {
@@ -19,6 +21,8 @@ buildPythonPackage rec {
   };
 
   nativeBuildInputs = [
+    cmake
+    ninja
     scikit-build-core
   ];
 

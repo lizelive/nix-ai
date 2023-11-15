@@ -2,6 +2,11 @@
 , fetchFromGitHub
 , buildPythonPackage
 , flit
+, pyglet
+, autoprop
+, more_itertools
+, pyyaml
+, vecrec
 }:
 
 buildPythonPackage rec {
@@ -18,6 +23,14 @@ buildPythonPackage rec {
 
   nativeBuildInputs = [
     flit
+  ];
+
+  propagatedBuildInputs = [
+    pyglet
+    autoprop
+    more_itertools
+    pyyaml
+    vecrec
   ];
 
   pythonImportsCheck = [ "glooey" ];

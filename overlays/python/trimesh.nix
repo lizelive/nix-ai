@@ -64,7 +64,7 @@ buildPythonPackage rec {
     easy = [
       chardet
       colorlog
-      pyembree
+      # embreex
       jsonschema
       lxml
       mapbox-earcut

@@ -75,50 +75,12 @@
             scikit-learn
             scikit-image
 
-
-
-            chardet
-            colorlog
-            pyembree
-            jsonschema
-            lxml
-            mapbox-earcut
-            networkx
-            pillow
-            pycollada
-            requests
-            rtree
-            scipy
-            setuptools
-            shapely
-            svg-path
-            xxhash
-
-
-            glooey
-            manifold3d
-            meshio
-            psutil
-            pyglet
-            python-fcl
-            scikit-image
-            sympy
-            vhacdx
-
             # testing
             pip
             notebook
             ipykernel
-            black
-            coveralls
-            ezdxf
-            matplotlib
-            mypy
-            pyinstrument
-            pytest
-            pytest-cov
           ]
-            # ++ (with trimesh.optional-dependencies;  easy ++ recommend)
+          #  ++ (with trimesh.optional-dependencies;  easy ++ recommend)
           );
         WEIGHTS = import ./weights pkgs;
 
