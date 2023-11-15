@@ -75,14 +75,58 @@
             scikit-learn
             scikit-image
 
-          ] ++ (with trimesh.optional-dependencies;  easy ++ recommend)
+
+
+            chardet
+            colorlog
+            pyembree
+            jsonschema
+            lxml
+            mapbox-earcut
+            networkx
+            pillow
+            pycollada
+            requests
+            rtree
+            scipy
+            setuptools
+            shapely
+            svg-path
+            xxhash
+
+
+            glooey
+            manifold3d
+            meshio
+            psutil
+            pyglet
+            python-fcl
+            scikit-image
+            sympy
+            vhacdx
+
+            # testing
+            jupyterlab
+            ipykernel
+            black
+            coveralls
+            ezdxf
+            matplotlib
+            mypy
+            pyinstrument
+            pytest
+            pytest-cov
+          ]
+            # ++ (with trimesh.optional-dependencies;  easy ++ recommend)
           );
+        WEIGHTS = import ./weights pkgs;
 
         pythonShell = pkgs.mkShell {
           nativeBuildInputs = [
             aiPython
             pkgs.black
           ];
+          inherit WEIGHTS;
         };
         LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [
           addOpenGLRunpath.driverLink
@@ -118,12 +162,12 @@
             inherit LD_LIBRARY_PATH RUST_SRC_PATH;
           };
 
-        WEIGHTS = import ./weights pkgs;
       in
       {
         legacyPackages = pkgs;
         packages.ide = vscode;
         packages.weights = WEIGHTS;
+        packages.aiPython = aiPython;
 
         formatter = pkgs.nixpkgs-fmt;
 

@@ -25,9 +25,7 @@ python3.pkgs.buildPythonApplication rec {
   ];
 
   passthru.optional-dependencies = with python3.pkgs; {
-    all = [
-      trimesh
-    ];
+
     easy = [
       chardet
       colorlog
