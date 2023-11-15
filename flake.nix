@@ -106,7 +106,8 @@
             vhacdx
 
             # testing
-            jupyterlab
+            pip
+            notebook
             ipykernel
             black
             coveralls
