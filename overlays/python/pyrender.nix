@@ -31,12 +31,14 @@ buildPythonPackage rec {
   };
 
   patches = [
-    (fetchpatch { # yet to be tagged
+    (fetchpatch {
+      # yet to be tagged
       name = "relax-pyopengl.patch";
       url = "https://github.com/mmatl/pyrender/commit/7c613e8aed7142df9ff40767a8f10b7a19b6255c.patch";
       hash = "sha256-SXRV9RC3PfQGjjIQ+n97HZrSDPae3rAHnTBiHXSFLaY=";
     })
-        (fetchpatch { # yet to be tagged
+    (fetchpatch {
+      # yet to be tagged
       name = "40.patch";
       url = "https://patch-diff.githubusercontent.com/raw/mmatl/pyrender/pull/40.patch";
       hash = "sha256-miv/NMTFAvcR7ssVuw4pgcA0Uj2tk4sfm1lvnWHBCZU=";

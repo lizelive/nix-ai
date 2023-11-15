@@ -52,7 +52,7 @@ python3.pkgs.buildPythonApplication rec {
       meshio
       psutil
       pyglet
-      # python-fcl
+      python-fcl
       scikit-image
       sympy
       vhacdx
