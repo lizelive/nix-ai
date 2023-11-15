@@ -59,7 +59,7 @@ buildPythonPackage rec {
     numpy
   ];
 
-  passthru.optional-dependencies =  {
+  passthru.optional-dependencies = {
 
     easy = [
       chardet

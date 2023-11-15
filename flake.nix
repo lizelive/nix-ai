@@ -80,10 +80,12 @@
             notebook
             ipykernel
 
+            rtree
             # convex hull
             vhacdx
+
           ]
-          #  ++ (with trimesh.optional-dependencies;  easy ++ recommend)
+            #  ++ (with trimesh.optional-dependencies;  easy ++ recommend)
           );
         WEIGHTS = import ./weights pkgs;
 
