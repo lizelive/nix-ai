@@ -7,7 +7,7 @@
       url = "github:nix-community/nix-vscode-extensions/c6080604ecf7c35da91d96ee0fb2601b20c1f5a1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     # nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
     # nixpkgs.follows = "nix-vscode-extensions/nixpkgs";
 
@@ -57,37 +57,41 @@
             github.copilot
           ];
         };
+        pythonPackages = (p: with p;[
+          trimesh
+          pyrender
+          torch
+          transformers
+          accelerate
+          optimum
+          diffusers
+          safetensors
+          pydantic
+          gradio
+          datasets
+          fsspec
 
-        aiPython = pkgs.python3.withPackages
-          (p: with p;[
-            trimesh
-            pyrender
-            torch
-            transformers
-            accelerate
-            optimum
-            diffusers
-            safetensors
-            pydantic
-            gradio
-            datasets
-            fsspec
+          scikit-learn
+          scikit-image
 
-            scikit-learn
-            scikit-image
+          # testing
+          pip
+          notebook
+          ipykernel
 
-            # testing
-            pip
-            notebook
-            ipykernel
+          rtree
 
-            rtree
-            # convex hull
-            vhacdx
+          # blender
+          bpycv
+        ]
+          #  ++ (with trimesh.optional-dependencies;  easy ++ recommend)
+        );
 
-          ]
-            #  ++ (with trimesh.optional-dependencies;  easy ++ recommend)
-          );
+        blender = pkgs.blender.withPackages pythonPackages;
+        aiPython = blender.python.withPackages (p: [ p.fake-bpy-module-latest ] ++ (pythonPackages p));
+        # aiPython = pkgs.python310.withPackages pythonPackages;
+
+
         WEIGHTS = import ./weights pkgs;
 
         pythonShell = pkgs.mkShell {
@@ -138,7 +142,7 @@
         packages.weights = WEIGHTS;
         packages.aiPython = aiPython;
 
-        packages.blender = pkgs.blender;
+        packages.blender = blender;
         # packages.blender = blender-bin.packages.x86_64-linux.blender_4_0;
         packages.pyembree = pkgs.python310Packages.pyembree;
 
@@ -149,7 +153,7 @@
         devShells.bevy = bevyShell;
 
         devShells.aio = pkgs.mkShell {
-          packages = [ pkgs.bashInteractive pkgs.cuda-voxelizer ];
+          packages = [ blender pkgs.bashInteractive pkgs.cuda-voxelizer ];
           inputsFrom = [
             pythonShell
             bevyShell

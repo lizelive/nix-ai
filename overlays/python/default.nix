@@ -10,6 +10,7 @@ let
     python-fcl = callPackage ./python-fcl.nix { };
     vhacdx = callPackage ./vhacdx.nix { };
     embreex = callPackage ./embreex.nix { };
+    fake-bpy-module-latest = callPackage ./fake-bpy-module-latest.nix { };
   };
 
   pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [ packageOverrides ];
