@@ -2,11 +2,12 @@
   description = "nix ml shell";
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/refs/pull/267511/merge";
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions/c6080604ecf7c35da91d96ee0fb2601b20c1f5a1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
     # nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
     # nixpkgs.follows = "nix-vscode-extensions/nixpkgs";
 
