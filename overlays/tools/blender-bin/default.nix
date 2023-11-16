@@ -47,7 +47,7 @@ let
 
 in
 mkBlender {
-  pname = "blender";
+  pname = "blender-bin";
   version = "4.1.0";
   src = pkgs.fetchurl {
     url = "https://builder.blender.org/download/daily/blender-4.1.0-alpha+main.d0c073898a93-linux.x86_64-release.tar.xz";

@@ -7,5 +7,5 @@ rec {
   cuda-voxelizer = callPackage ./cuda-voxelizer { inherit trimesh2; };
   fetch-huggingface = callPackage ./fetch-huggingface { };
   embree217 = callPackage ./embree { };
-  blender = callPackage ./blender final;
+  blender-bin = callPackage ./blender-bin final;
 }
