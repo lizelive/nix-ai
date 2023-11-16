@@ -16,26 +16,22 @@
 stdenv.mkDerivation rec {
   pname = "embree";
 
-  # version = "3.2.3";
-  # src = fetchFromGitHub {
-  #     owner = "embree";
-  #     repo = "embree";
-  #     rev = "09a6013b79d0a670ca630d121b86265f9b9fab99";
-  #     sha256 = "0920asx0d9v0wcxh7wip98db0vhwz3zkwn2glimy7vfsh9nzinwh";
-  # };
-
-  version = "4.3.0";
+  version = "2.17.7";
 
   src = fetchFromGitHub {
     owner = "embree";
     repo = "embree";
     rev = "v${version}";
-    hash = "sha256-Mk0xaY7QL6Xe0+pNz725iwMnzcXOsYz9Bm5H7fEj+8o=";
+    hash = "sha256-FD/ITZBJnYy1F+x4jLTVTsGsNKy/mS7OYWP06NoHZqc=";
   };
 
   nativeBuildInputs = [
     cmake
     pkg-config
+  ];
+  
+  cmakeFlags = [
+    "-DEMBREE_TUTORIALS=OFF"
   ];
 
   buildInputs = [ ispc tbb glfw openimageio2 libjpeg libpng libX11 libpthreadstubs ];

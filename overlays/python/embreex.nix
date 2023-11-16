@@ -8,6 +8,7 @@
 , wheel
 , rtree
 , trimesh
+, embree217
 }:
 
 buildPythonPackage rec {
@@ -28,6 +29,7 @@ buildPythonPackage rec {
     poetry-core
     setuptools
     wheel
+    embree217
   ];
 
   propagatedBuildInputs = [
@@ -39,12 +41,13 @@ buildPythonPackage rec {
     wheel
   ];
 
+  # it's hardcoding the path to the embree library idk what to do about that
+
   pythonImportsCheck = [ "embreex" ];
 
   meta = with lib; {
     description = "Python Wrapper for Embree";
-    homepage = "https://github.com/adam-grant-hendry/pyembree";
-    changelog = "https://github.com/adam-grant-hendry/pyembree/blob/${src.rev}/CHANGELOG.rst";
+    homepage = "https://github.com/trimesh/embreex";
     license = licenses.bsd2;
     maintainers = with maintainers; [ ];
     mainProgram = "embreex";

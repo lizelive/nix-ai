@@ -6,7 +6,6 @@
 , numpy
 , chardet
 , colorlog
-, pyembree
 , jsonschema
 , lxml
 , mapbox-earcut
@@ -36,6 +35,7 @@
 , pyinstrument
 , pytest
 , pytest-cov
+, embreex
 }:
 
 buildPythonPackage rec {
@@ -64,7 +64,7 @@ buildPythonPackage rec {
     easy = [
       chardet
       colorlog
-      # embreex
+      embreex
       jsonschema
       lxml
       mapbox-earcut

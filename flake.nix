@@ -132,11 +132,13 @@
 
       in
       {
-        legacyPackages = pkgs;
+        # legacyPackages = pkgs;
         packages.ide = vscode;
         packages.weights = WEIGHTS;
         packages.aiPython = aiPython;
 
+        packages.blender = pkgs.blender;
+        # packages.blender = blender-bin.packages.x86_64-linux.blender_4_0;
         packages.pyembree = pkgs.python310Packages.pyembree;
 
         formatter = pkgs.nixpkgs-fmt;

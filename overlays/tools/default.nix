@@ -6,6 +6,6 @@ rec {
   trimesh2 = callPackage ./trimesh2 { };
   cuda-voxelizer = callPackage ./cuda-voxelizer { inherit trimesh2; };
   fetch-huggingface = callPackage ./fetch-huggingface { };
-  embree = callPackage ./embree { };
-
+  embree217 = callPackage ./embree { };
+  blender = callPackage ./blender final;
 }
