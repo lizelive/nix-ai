@@ -20,7 +20,7 @@ buildPythonPackage rec {
     wheel
   ];
 
-  pythonImportsCheck = [ "fake_bpy_module_latest" ];
+  pythonImportsCheck = [ "bpy" ];
 
   meta = with lib; {
     description = "Collection of the fake Blender Python API module for the code completion";

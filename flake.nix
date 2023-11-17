@@ -87,8 +87,23 @@
           #  ++ (with trimesh.optional-dependencies;  easy ++ recommend)
         );
 
-        blender = pkgs.blender.withPackages pythonPackages;
-        aiPython = blender.python.withPackages (p: [ p.fake-bpy-module-latest ] ++ (pythonPackages p));
+        blender-wrapped = let blender-wrapped = pkgs.blender.withPackages pythonPackages; in blender-wrapped // {
+          meta = blender-wrapped.meta // {
+            mainProgram = "blender-wrapped";
+          };
+        };
+        
+        blender = pkgs.writeShellApplication {
+          name = "blender";
+
+          runtimeInputs = [ blender-wrapped ];
+
+          text = ''
+            blender-wrapped "$@"
+          '';
+        };
+
+        aiPython = pkgs.blender.python.withPackages (p: [ p.fake-bpy-module-latest ] ++ (pythonPackages p));
         # aiPython = pkgs.python310.withPackages pythonPackages;
 
 
@@ -139,11 +154,9 @@
       {
         # legacyPackages = pkgs;
         packages.ide = vscode;
+        packages.blender = blender-wrapped;
         packages.weights = WEIGHTS;
         packages.aiPython = aiPython;
-
-        packages.blender = blender;
-        # packages.blender = blender-bin.packages.x86_64-linux.blender_4_0;
         packages.pyembree = pkgs.python310Packages.pyembree;
 
         formatter = pkgs.nixpkgs-fmt;
